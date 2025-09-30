@@ -1,34 +1,53 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import {Navbar,Design,Login, Texts} from './Components/Navbar'
-
+import React from 'react'
+import {BrowserRouter , Routes,Route} from 'react-router-dom'
+import Layout from './Components/Layout'
+import { Login } from './Components/Login'
+import { Register } from './Components/Register'
+import {  UserDataProvider } from './Context/Context'
+import   PrivateRoute  from './Context/Context'
+import Dashboard from './Components/Dashboard'
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
     <>
-     <div className='h-screen w-full  relative overflow-hidden'> 
 
-      <header>
-        <Navbar />
-      </header>
+    <UserDataProvider>
+    <BrowserRouter>
 
-      <section className='w-full h-full '>
-        {/* <Texts /> */}
-        <Login />
-
-      </section>
+      <Routes>
 
 
-      <footer>
+        <Route path='/' element={<PrivateRoute />} >
+           
+            <Route path='dash' element={<Dashboard />} />
+        </Route>
+       
+        <Route path='/login' element={<Layout />} >
+            <Route index element={<Login />} />
+        </Route> 
+        <Route path='/register' element={<Layout />} >
+            <Route index element={<Register />} />
+        </Route> 
+        
+ 
+          
 
-      <Design className={"-z-10"}/>
-      <Design className={"-z-10 bottom-5 opacity-[0.5]"} />
-      </footer>
+        
 
-     </div>
+        
+        
+
+        
+
+        
+        
+
+      </Routes>
+    
+    </BrowserRouter>
+    </UserDataProvider>
+
+
     </>
   )
 }
