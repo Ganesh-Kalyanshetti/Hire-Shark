@@ -1,7 +1,7 @@
 import { useState } from 'react'
 
 import { Outlet } from 'react-router-dom'
-import { Design, Navbar } from './NAvbar'
+import { Design, Navbar } from './Navbar'
 
 
 function Layout() {

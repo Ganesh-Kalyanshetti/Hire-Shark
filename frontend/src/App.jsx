@@ -18,15 +18,14 @@ function App() {
 
 
         <Route path='/' element={<PrivateRoute />} >
-           
-            <Route path='dash' element={<Dashboard />} />
+          <Route path='dash' element={<Dashboard />} />
         </Route>
        
         <Route path='/login' element={<Layout />} >
-            <Route index element={<Login />} />
+          <Route index element={<Login />} />
         </Route> 
         <Route path='/register' element={<Layout />} >
-            <Route index element={<Register />} />
+          <Route index element={<Register />} />
         </Route> 
         
  

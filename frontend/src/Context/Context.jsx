@@ -26,10 +26,6 @@ export default function PrivateRoute () {
     // }else{
     //     navigate(path.pathname)
     // }
-
-    
-   
-    
     return <Outlet />
     
 }
@@ -47,8 +43,8 @@ export const UserDataProvider = ({children}) => {
     
     useEffect(() => {
 
-        // let name = localStorage.getItem("ch_name")
-        // SetUSer(name)
+        let name = localStorage.getItem("ch_name")
+        SetUSer(name)
     },[])
 
     console.log(User);

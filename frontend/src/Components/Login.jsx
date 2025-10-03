@@ -1,4 +1,4 @@
-import { useContext, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import { FaInstagram,FaGit,FaTwitter } from "react-icons/fa"
 // import Link from 'react-router-dom'
 import { useNavigate } from "react-router-dom"
@@ -13,22 +13,36 @@ export const Login = () => {
     const [UserForm,SetUserForm] = useState({})
     const [FormError,SetFormError] = useState({})
 
-    const HandleFormData = (e) => {
 
-        const {name,value} = e.target
-        console.log(name);
-    
-        name == "username"  && SetFormError((prev) => ({...prev,[name] : value.length < 3 ? "minimun 4 charter required" : "" })) 
-        name == "password"  && SetFormError((prev) => ({...prev,[name] : value.length < 6 ? "minimun 6 charter required" : "" }))
 
-            SetUserForm((prev) => {
+    const SetValue = (name,value) => {
+        SetUserForm((prev) => {
                 return  {...prev,
                     [name] : value
                 }
             })
+    }
 
-           
-          
+    const HandleFormData = (e) => {
+
+        
+    const Clear = setTimeout(() => {
+
+            
+        const {name,value} = e.target
+        console.log(value);
+    
+        name == "username"  && SetFormError((prev) => ({...prev,[name] : value.length < 3 ? "minimun 4 charter required" : SetValue(name,value)})) 
+        name == "password"  && SetFormError((prev) => ({...prev,[name] : value.length < 6 ? "minimun 6 charter required" : SetValue(name,value) }))
+    
+    },3000)
+
+    return () => {
+        clearTimeout(Clear)
+    }
+        
+
+            
     }
 
     const HandleError = () => {
@@ -50,11 +64,18 @@ export const Login = () => {
     const HandleCall = () => {
 
         let hasError = Object.values(FormError).some(val => val)
+        let hasData = Object.keys(UserForm).length != 2
 
-        console.log(hasError);
         
-        if(!hasError){
+        
+        if(!hasError && !hasData){
             console.log("Good for api call");
+            const CheckName = localStorage.getItem('ch_name')
+
+            CheckName === UserForm.username ?  navigate('/dash') : alert("Username didn't match check again")
+
+            SetUserForm({})
+            
         }else{
             console.log("Need to solve the errors");
             
@@ -66,6 +87,13 @@ export const Login = () => {
             navigate("/register")
     }
 
+
+    useEffect(() => {
+
+        
+         
+    },[UserForm])
+
     return(
         <>
         
@@ -75,13 +103,20 @@ export const Login = () => {
 
           
 
-                <h1 className="my-9 text-white text-center text-3xl font-bold mx-3 cursor-pointer">Login</h1>
+                <h1 className="my-8 text-white text-center text-[50px] font-extrabold mx-3 cursor-pointer">Login</h1>
 
                 <div className="h-2/3  w-full flex flex-col items-center  justify-center">
-                    <input onChange={(e) => {HandleFormData(e)}} name="username" placeholder="Username" className="w-2/3 px-5 py-1 outline-none my-4 rounded bg-white" type="text" />
+                    <div className="w-full h-[70px] flex flex-col items-center">
+
+                    <input onChange={(e) => {HandleFormData(e)}} name="username" placeholder="Username" className="w-2/3 px-5 py-1 outline-none rounded bg-white" type="text" />
                     {FormError && <p  className="text-red-900">{FormError.username}</p>}
-                    <input onChange={(e) => {HandleFormData(e)}} name="password" placeholder="Password" className="w-2/3 px-5 py-1 outline-none my-4 rounded bg-blue-400/50" type="password"  /> 
+                    </div>
+
+                    <div className="w-full h-[50px] flex flex-col items-center">
+
+                    <input onChange={(e) => {HandleFormData(e)}} name="password" placeholder="Password" className="w-2/3 px-5 py-1 outline-none rounded bg-blue-400/50" type="password"  /> 
                     {FormError && <p  className="text-red-900">{FormError.password}</p>}
+                    </div>
 
                     <div className="">
 
